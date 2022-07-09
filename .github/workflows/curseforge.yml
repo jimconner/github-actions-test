@@ -33,7 +33,7 @@ jobs:
               echo "CF Project Name: ${project_name}"
               project_id=$(grep $project_name <<< ${CF_PROJECT_IDS} | awk -F: '{print $2}' )
               echo "CF Project ID: ${project_id}"
-              echo ""::set-output name=project_id::${project_id}"
+              echo "::set-output name=project_id::${project_id}"
         env:
           CF_PROJECT_IDS: ${{ secrets.CF_PROJECT_IDS }}
 
