@@ -1,0 +1,39 @@
+# A workflow which triggers on release published and upload zips to Curseforge.
+
+name: "Curseforge Upload"
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  curseforge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Show Release Details"
+        id: print
+        run: "echo Name: ${{ github.event.release.tag_name }} Tag: ${{ github.event.release.tag_name }} Description: ${{ github.event.release.body }}"
+
+      - name: Download Zip Release
+        id: download
+        uses: robinraju/release-downloader@v1.4
+        with:
+          repository: "jimconner/github-actions-test"
+          tag: ${{ github.event.release.tag_name }}
+          filename: "*.zip"
+
+      - name: Find Zip
+        id: findzip
+        run: echo "::set-output name=zipfile::*.zip"
+
+      - name: "Upload to CurseForge"
+        uses: itsmeow/curseforge-upload@v3
+        with:
+          file_path: "${{ steps.findzip.zipfile }}"
+          game_endpoint: "www"
+          game_versions: "Demeo 1.15"
+          release_type: release
+          changelog: ${{ github.event.release.body }}
+          changelog_type: markdown
+          project_id: "574512"
+          token: "${{ secrets.CF_API_TOKEN }}"
