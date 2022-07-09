@@ -24,7 +24,7 @@ jobs:
 
       - name: Find Zip
         id: findzip
-        run: echo "::set-output name=zipfile::*.zip"
+        run: echo "::set-output name=zipfile::$(echo *.zip)"
 
       - name: "Upload to CurseForge"
         uses: itsmeow/curseforge-upload@v3
