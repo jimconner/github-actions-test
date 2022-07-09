@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: "Show Release Details"
         id: print
-        run: "echo Name: ${{ github.event.release.tag_name }} Tag: ${{ github.event.release.tag_name }} Description: ${{ github.event.release.body }}"
+        run: "echo Name: ${{ github.event.release.tag_name }} Tag: ${{ github.event.release.name }}"
 
       - name: Download Zip Release
         id: download
