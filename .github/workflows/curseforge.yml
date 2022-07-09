@@ -28,7 +28,14 @@ jobs:
 
       - name: Get CF Project ID
         id: get_project_id
-        run: "echo ::set-output name=project_id::$(echo ${{ secrets.CF_PROJECT_IDS }} | awk -F- '{print $2}' | awk -F: '{print $2}')"
+        run: |
+              project_name=$(echo ${{ github.event.release.tag_name }} | awk -F- '{print $2}')
+              echo "CF Project Name: ${project_name}"
+              project_id=$(grep $project_name <<< ${CF_PROJECT_IDS} | awk -F: '{print $2}' )
+              echo "CF Project ID: ${project_id}"
+              echo ""::set-output name=project_id::${project_id})"
+        env:
+          CF_PROJECT_IDS: ${{ secrets.CF_PROJECT_IDS }}
 
       - name: "Upload to CurseForge"
         uses: itsmeow/curseforge-upload@v3
