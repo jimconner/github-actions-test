@@ -29,11 +29,11 @@ jobs:
       - name: "Upload to CurseForge"
         uses: itsmeow/curseforge-upload@v3
         with:
-          file_path: "${{ steps.findzip.zipfile }}"
+          file_path: "${{ steps.findzip.outputs.zipfile }}"
           game_endpoint: "www"
           game_versions: "Demeo 1.15"
           release_type: release
           changelog: ${{ github.event.release.body }}
           changelog_type: markdown
-          project_id: "574512"
+          project_id: "123456"
           token: "${{ secrets.CF_API_TOKEN }}"
